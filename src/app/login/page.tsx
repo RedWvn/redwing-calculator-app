@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button';
 import { Separator } from "@/components/ui/separator" // Import Separator for visual enhancements
 
-const hardcodedPassword = "Redwing@123456789!";
+const hardcodedPassword = "Redwing@1234567890!";
 
 export default function LoginPage() {
     const [password, setPassword] = useState('');
