@@ -138,7 +138,7 @@ function RedwingDroneCalculatorComponent() {
         whatIfData: [],
     })
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-depsgit
     useEffect(() => {
         calculateCosts()
     }, [hubInputs, droneInputs, batteryInputs, operationalInputs])
