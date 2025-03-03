@@ -6,7 +6,6 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Separator } from "@/components/ui/separator"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from 'recharts';
 
 interface Currency {
@@ -139,6 +138,7 @@ function RedwingDroneCalculatorComponent() {
         whatIfData: [],
     })
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         calculateCosts()
     }, [hubInputs, droneInputs, batteryInputs, operationalInputs])
@@ -177,7 +177,6 @@ function RedwingDroneCalculatorComponent() {
         // Calculate base revenue per flight
         const calculateRevenuePerFlight = (costPerFlight: number) => {
             if (operationalInputs.usePercentage) {
-                const percentageOverCost = Number(operationalInputs.percentageOverCost) / 100
                 return costPerFlight * (1 + (Number(operationalInputs.percentageOverCost) / 100)) // Converted here too
             }
             return Number(operationalInputs.revenuePerFlight)
