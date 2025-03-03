@@ -1,12 +1,12 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect, useCallback } from 'react'
 
 interface Currency {
     symbol: string;
@@ -138,12 +138,8 @@ function RedwingDroneCalculatorComponent() {
         whatIfData: [],
     })
 
-    // eslint-disable-next-line react-hooks/exhaustive-depsgit
-    useEffect(() => {
-        calculateCosts()
-    }, [hubInputs, droneInputs, batteryInputs, operationalInputs])
 
-    const calculateCosts = () => {
+    const calculateCosts = useCallback(() => {
         // Hub calculations
         const monthlyPersonnelCost = Number(hubInputs.totalPersonnelCount) * Number(hubInputs.averagePersonnelCost)
         const monthlyInfrastructureCost = Number(hubInputs.hubInfrastructureLife) ?
@@ -222,7 +218,12 @@ function RedwingDroneCalculatorComponent() {
             breakEvenPoint,
             whatIfData,
         })
-    }
+    }, [hubInputs, droneInputs, batteryInputs, operationalInputs]) 
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      calculateCosts()
+    }, [calculateCosts]) // Add here
 
     const formatCurrency = (amount: number | undefined) => {
         if (amount === undefined) return `${currencies[selectedCurrency as keyof typeof currencies].symbol}0.00`;
