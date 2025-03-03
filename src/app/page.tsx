@@ -765,18 +765,27 @@ function RedwingDroneCalculatorComponent() {
 
 
 export default function RedwingDroneCalculator() {
-    const router = useRouter();
-    useEffect(() => {
-        const loggedIn = localStorage.getItem('loggedIn');
-        if (!loggedIn) {
-            router.push('/login'); // Redirect to login if not logged in
-        }
-    }, [router]);
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Initialize as null
 
-    const loggedIn = localStorage.getItem('loggedIn');
-    if (!loggedIn) {
-        return null; // Or a loading spinner if you prefer
-    }
+  useEffect(() => {
+      // Check if we are in a browser environment before using localStorage
+      if (typeof window !== 'undefined') {
+          const loggedIn = localStorage.getItem('loggedIn');
+          setIsLoggedIn(loggedIn === 'true');
+      } else {
+          setIsLoggedIn(false); // Default to not logged in during SSR
+      }
+  }, [router]);
 
-    return <RedwingDroneCalculatorComponent />;
+  if (isLoggedIn === null) {
+      return null; // Or you can return a loading indicator here if you want
+  }
+
+  if (!isLoggedIn) {
+      router.push('/login'); // Redirect to login page if not logged in
+      return null; // Prevent rendering calculator content before redirect
+  }
+
+  return <RedwingDroneCalculatorComponent />;
 }
